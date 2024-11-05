@@ -1,3 +1,22 @@
+/*
+C# equivalent code:
+
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        long num1 = 12;
+        long num2 = 5;
+        long result = num1 * num2;
+        
+        Console.Write("Result of multiplication: ");
+        Console.WriteLine(result);
+    }
+}
+*/
+
 // ARM64 assembly program to multiply two numbers
 .global _start            // Make _start visible to linker
 
