@@ -4,6 +4,68 @@
 // X1 - Contador actual
 // X2 - Suma acumulada
 
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        Console.WriteLine("=== Suma de N números naturales ===\n");
+        
+        // Solicitar entrada al usuario
+        Console.Write("Ingrese un número N: ");
+        int n = Convert.ToInt32(Console.ReadLine());
+
+        // Mostrar resultados usando diferentes métodos
+        Console.WriteLine($"\nUsando bucle for: {SumaConBucle(n)}");
+        Console.WriteLine($"Usando fórmula matemática: {SumaConFormula(n)}");
+        Console.WriteLine($"Usando LINQ: {SumaConLinq(n)}");
+        Console.WriteLine($"Usando recursividad: {SumaRecursiva(n)}");
+    }
+
+    // Método 1: Usando un bucle for
+    static long SumaConBucle(int n)
+    {
+        long suma = 0;
+        for (int i = 1; i <= n; i++)
+        {
+            suma += i;
+        }
+        return suma;
+    }
+
+    // Método 2: Usando la fórmula matemática n*(n+1)/2
+    static long SumaConFormula(int n)
+    {
+        return (long)n * (n + 1) / 2;
+    }
+
+    // Método 3: Usando LINQ
+    static long SumaConLinq(int n)
+    {
+        return Enumerable.Range(1, n).Sum(x => (long)x);
+    }
+
+    // Método 4: Usando recursividad
+    static long SumaRecursiva(int n)
+    {
+        if (n <= 1) return n;
+        return n + SumaRecursiva(n - 1);
+    }
+
+    // Método adicional para validar la entrada (opcional)
+    static int ValidarEntrada()
+    {
+        int n;
+        while (true)
+        {
+            Console.Write("Ingrese un número positivo: ");
+            if (int.TryParse(Console.ReadLine(), out n) && n > 0)
+                return n;
+            Console.WriteLine("Por favor, ingrese un número válido mayor que 0.");
+        }
+    }
+}
 .global _start      // Punto de entrada del programa
 
 .section .text
