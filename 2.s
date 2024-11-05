@@ -1,3 +1,16 @@
+/*
+using System;
+class Program
+{
+    static void Main()
+    {
+        int numero1 = 5;  // Primer número
+        int numero2 = 3;  // Segundo número
+        int resultado = numero1 + numero2;
+        Console.WriteLine("Resultado: " + resultado);
+    }
+}
+*/
     .section .data
 result_str: 
     .asciz "Resultado: 8\n"   // Resultado esperado de 5 + 3 como cadena
