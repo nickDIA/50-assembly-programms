@@ -1,3 +1,54 @@
+/*
+C# equivalent code:
+
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        long num1 = 100;  // dividend
+        long num2 = 5;    // divisor
+        
+        long quotient = num1 / num2;
+        long remainder = num1 % num2;
+        
+        Console.Write("Quotient: ");
+        Console.WriteLine(quotient);
+        Console.Write("Remainder: ");
+        Console.WriteLine(remainder);
+    }
+}
+
+// More robust version with error checking:
+class ProgramWithErrorChecking
+{
+    static void Main()
+    {
+        long num1 = 100;  // dividend
+        long num2 = 5;    // divisor
+        
+        try
+        {
+            if (num2 == 0)
+                throw new DivideByZeroException();
+                
+            long quotient = num1 / num2;
+            long remainder = num1 % num2;
+            
+            Console.Write("Quotient: ");
+            Console.WriteLine(quotient);
+            Console.Write("Remainder: ");
+            Console.WriteLine(remainder);
+        }
+        catch (DivideByZeroException)
+        {
+            Console.WriteLine("Error: Cannot divide by zero!");
+        }
+    }
+}
+*/
+
 // ARM64 assembly program to divide two numbers
 .global _start            // Make _start visible to linker
 
