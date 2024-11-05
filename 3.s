@@ -1,3 +1,22 @@
+/*
+C# equivalent code:
+
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        long num1 = 50;
+        long num2 = 30;
+        long result = num1 - num2;
+        
+        Console.Write("Result: ");
+        Console.WriteLine(result);
+    }
+}
+*/
+
 // ARM64 assembly program to subtract two numbers
 .global _start            // Make _start visible to linker
 
