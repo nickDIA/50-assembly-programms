@@ -1,9 +1,4 @@
-// Programa en ensamblador ARM de 64 bits para calcular el factorial de un número fijo
-// Guardar este archivo como factorial.s y compilar con:
-// $ as -o factorial.o factorial.s
-// $ ld -o factorial factorial.o
-// Ejecutar con:
-// $ ./factorial
+
 
 .section .text
     .global _start
