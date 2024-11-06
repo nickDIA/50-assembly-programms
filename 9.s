@@ -4,6 +4,7 @@
 // $ ld -o primo primo.o
 // Ejecutar con:
 // $ ./primo
+//si el 
 
 .section .text
     .global _start
