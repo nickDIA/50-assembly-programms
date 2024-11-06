@@ -24,17 +24,17 @@ invert_loop:
     // Obtener el siguiente carácter de la cadena original
     sub x1, x1, #1              // Decrementar longitud
     add x3, x0, x1              // Dirección del carácter actual en la cadena original
-    ldrb w4, [x3]               // Cargar el byte (carácter) en w4
+    ldrb x4, [x3]               // Cargar el byte (carácter) en w4
 
     // Almacenar el carácter en la cadena invertida
-    strb w4, [x2], #1           // Almacenar y mover el puntero a la siguiente posición en reverse_string
+    strb x4, [x2], #1           // Almacenar y mover el puntero a la siguiente posición en reverse_string
 
     b invert_loop               // Repetir el ciclo
 
 done_inverting:
     // Añadir el null terminator a la cadena invertida
-    mov w4, #0                  // Null terminator (0)
-    strb w4, [x2]               // Guardar el null terminator
+    mov x4, #0                  // Null terminator (0)
+    strb x4, [x2]               // Guardar el null terminator
 
     // Imprimir la cadena invertida
     ldr x0, =reverse_string     // Cargar la dirección de la cadena invertida
@@ -50,8 +50,8 @@ print_string:
     mov x1, x0                  // Poner la dirección de la cadena en x1
     mov x2, #0                  // Contador de longitud de la cadena
 count_loop:
-    ldrb w3, [x1, x2]           // Cargar un byte de la cadena
-    cbz w3, done_counting       // Si es null terminator (fin de la cadena), salir
+    ldrb x3, [x1, x2]           // Cargar un byte de la cadena
+    cbz x3, done_counting       // Si es null terminator (fin de la cadena), salir
     add x2, x2, #1              // Incrementar contador
     b count_loop                // Continuar contando la longitud
 
