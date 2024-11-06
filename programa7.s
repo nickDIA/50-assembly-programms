@@ -10,14 +10,14 @@ prompt: .asciz "Introduce un número: "
 result_msg: .asciz "El factorial es: %d\n"
 
 .section .bss
-    .lcomm num, 8
+    .lcomm num, 8                  // Reserva 8 bytes para el número
 
 .section .text
     .global _start
 
 _start:
     // Escribir el mensaje para solicitar un número
-    mov x0, 1                      // File descriptor (stdout)
+    mov x0, 1                       // File descriptor (stdout)
     ldr x1, =prompt                 // Dirección del mensaje
     mov x2, 18                      // Longitud del mensaje
     mov x8, 64                      // Syscall para escribir
@@ -25,13 +25,16 @@ _start:
 
     // Leer el número ingresado por el usuario
     mov x0, 0                       // File descriptor (stdin)
-    ldr x1, =num                    // Dirección para almacenar el número
+    adrp x1, num                    // Cargar la página base de la dirección de 'num'
+    add x1, x1, :lo12:num           // Ajustar al desplazamiento correcto en la página
     mov x2, 8                       // Tamaño de lectura
     mov x8, 63                      // Syscall para leer
     svc 0                           // Llamada al sistema
 
     // Cargar el número y convertirlo a entero
-    ldr x0, [num]                   // Cargar el número leído en x0
+    adrp x0, num                    // Cargar la página base de la dirección de 'num'
+    add x0, x0, :lo12:num           // Ajustar al desplazamiento correcto en la página
+    ldrb w0, [x0]                   // Cargar el número leído en w0 (8 bits)
     sub x0, x0, '0'                 // Convertir de ASCII a valor entero
 
     // Calcular el factorial
