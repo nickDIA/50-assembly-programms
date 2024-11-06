@@ -56,8 +56,8 @@ print_string:
     mov x1, x0                  // Dirección de la cadena
     mov x2, #0                  // Contador de longitud de la cadena
 count_loop:
-    ldrb w3, [x1, x2]           // Cargar un byte de la cadena
-    cbz w3, done_counting       // Si es null terminator (fin de la cadena), salir
+    ldrb x3, [x1, x2]           // Cargar un byte de la cadena
+    cbz x3, done_counting       // Si es null terminator (fin de la cadena), salir
     add x2, x2, #1              // Incrementar contador
     b count_loop                // Continuar contando la longitud
 
