@@ -10,7 +10,7 @@
 
 _start:
     // Definir el número de términos de Fibonacci que queremos calcular, por ejemplo, 10
-    mov x0, 10                      // Número de términos de la serie de Fibonacci
+    mov x0, 10                      // Número de términos de la serie de Fibonacci no confundir con el número de término que buscamos
     mov x1, 0                       // F(0)
     mov x2, 1                       // F(1)
     mov x3, 2                       // Contador de términos, comenzando en el tercer término
