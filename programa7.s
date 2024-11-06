@@ -44,7 +44,7 @@ print_string:
     mov x2, #0                  // Contador de longitud de la cadena
 count_loop:
     ldrb w3, [x1, x2]           // Cargar un byte de la cadena
-    cbz w3, done_counting       // Si es null terminator (fin de la cadena), salir
+    cbz x3, done_counting       // Si es null terminator (fin de la cadena), salir
     add x2, x2, #1              // Incrementar contador
     b count_loop                // Continuar contando la longitud
 
@@ -67,7 +67,7 @@ reverse_print:
     mul x6, x5, x2              // x6 = x5 * 10
     sub x7, x3, x6              // x7 = x3 - x6 (resto de la división, el dígito)
     add x7, x7, #48             // Convertir el dígito a ASCII
-    strb w7, [sp, x4]           // Guardar el dígito en el stack
+    strb x7, [sp, x4]           // Guardar el dígito en el stack
     mov x3, x5                  // Mover el cociente al siguiente paso
     add x4, x4, #1              // Incrementar el contador de dígitos
     cmp x3, #0                  // Verificar si ya no hay más dígitos
@@ -79,8 +79,8 @@ reverse_print:
     mov x4, sp                  // Dirección de los dígitos a imprimir
 
 print_digits:
-    ldrb w6, [x4], #1           // Cargar un byte (dígito)
-    mov x0, w6                  // Mover el dígito a imprimir
+    ldrb x6, [x4], #1           // Cargar un byte (dígito)
+    mov x0, x6                  // Mover el dígito a imprimir
     mov x8, #64                 // syscall número para write
     mov x1, x0                  // Escribir el carácter
     mov x2, #1                  // Longitud 1 (un solo carácter)
