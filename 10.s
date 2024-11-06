@@ -1,64 +1,51 @@
-.global _start
+// Programa en ensamblador ARM de 64 bits para invertir una cadena fija
+// Guardar este archivo como invertir.s y compilar con:
+// $ as -o invertir.o invertir.s
+// $ ld -o invertir invertir.o
+// Ejecutar con:
+// $ ./invertir
 
 .section .data
-input_string:   .asciz "Hola Mundo"    // Cadena de entrada
-input_len:      .quad 11               // Longitud de la cadena (sin el null terminator)
-
-.section .bss
-reverse_string: .skip 12               // Espacio para almacenar la cadena invertida
+cadena: .asciz "hello"              // Cadena original que queremos invertir
 
 .section .text
+    .global _start
+
 _start:
-    // Cargar la dirección de la cadena original
-    ldr x0, =input_string       // Cargar la dirección de la cadena original
-    ldr x1, =input_len          // Cargar la longitud de la cadena (sin el null terminator)
-    ldr x1, [x1]                // Obtener la longitud de la cadena
+    // Cargar la dirección de la cadena en x0
+    ldr x0, =cadena                 // x0 apunta al inicio de la cadena
+    mov x1, x0                      // Copia de la dirección de inicio para contar
 
-    // Preparar para invertir la cadena
-    ldr x2, =reverse_string     // Dirección donde se almacenará la cadena invertida
+    // Encontrar la longitud de la cadena
+    mov x2, 0                       // Contador de longitud
+find_length:
+    ldrb w3, [x1], 1                // Cargar byte de la cadena y avanzar
+    cbz w3, start_reverse           // Si encontramos el nulo ('\0'), iniciar inversión
+    add x2, x2, 1                   // Incrementar contador
+    b find_length                   // Repetir hasta encontrar el final
 
-invert_loop:
-    // Comprobar si hemos llegado al final de la cadena
-    cbz x1, done_inverting      // Si x1 (longitud) es 0, hemos terminado
+start_reverse:
+    sub x2, x2, 1                   // Ajustar longitud para el último carácter (ignorar '\0')
+    mov x3, x2                      // Guardar la longitud en x3 como índice final
 
-    // Obtener el siguiente carácter de la cadena original
-    sub x1, x1, #1              // Decrementar longitud
-    add x3, x0, x1              // Dirección del carácter actual en la cadena original
-    ldrb x4, [x3]               // Cargar el byte (carácter) en w4
+reverse_loop:
+    // Terminar si los índices se cruzan
+    cmp x0, x1                      // Comparar el inicio y el final
+    bge end_reverse                 // Si se cruzan, fin de la inversión
 
-    // Almacenar el carácter en la cadena invertida
-    strb x4, [x2], #1           // Almacenar y mover el puntero a la siguiente posición en reverse_string
+    // Intercambiar caracteres
+    ldrb w4, [x0]                   // Cargar byte del inicio
+    ldrb w5, [x1]                   // Cargar byte del final
+    strb w4, [x1]                   // Almacenar byte inicial en la posición final
+    strb w5, [x0]                   // Almacenar byte final en la posición inicial
 
-    b invert_loop               // Repetir el ciclo
+    // Mover índices
+    add x0, x0, 1                   // Avanzar al siguiente carácter desde el inicio
+    sub x1, x1, 1                   // Retroceder al siguiente carácter desde el final
+    b reverse_loop                  // Repetir hasta que los índices se crucen
 
-done_inverting:
-    // Añadir el null terminator a la cadena invertida
-    mov x4, #0                  // Null terminator (0)
-    strb x4, [x2]               // Guardar el null terminator
-
-    // Imprimir la cadena invertida
-    ldr x0, =reverse_string     // Cargar la dirección de la cadena invertida
-    bl print_string             // Llamar a la función de impresión
-
-    // Salir del programa
-    mov x8, #93                 // syscall número para exit (en Linux ARM64)
-    mov x0, #0                  // Código de salida 0
-    svc #0                      // Realizar la llamada al sistema
-
-print_string:
-    // Función para imprimir una cadena
-    mov x1, x0                  // Poner la dirección de la cadena en x1
-    mov x2, #0                  // Contador de longitud de la cadena
-count_loop:
-    ldrb x3, [x1, x2]           // Cargar un byte de la cadena
-    cbz x3, done_counting       // Si es null terminator (fin de la cadena), salir
-    add x2, x2, #1              // Incrementar contador
-    b count_loop                // Continuar contando la longitud
-
-done_counting:
-    mov x0, x1                  // Dirección de la cadena
-    mov x1, x2                  // Longitud de la cadena
-    mov x8, #64                 // syscall número para write (en Linux ARM64)
-    mov x2, x1                  // Longitud de la cadena
-    svc #0                      // Llamada al sistema para imprimir la cadena
-    ret
+end_reverse:
+    // Finalizar el programa
+    mov x8, 93                      // Syscall para salir
+    mov x0, 0                       // Código de salida
+    svc 0                           // Llamada al sistema
